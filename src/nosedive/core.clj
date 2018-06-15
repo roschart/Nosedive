@@ -16,24 +16,14 @@
    :subname     "db/database.db"})
 
 
-(defn create-db []
-  (try (db-do-commands db
-                       (create-table-ddl :votes
-                                         [[:date :text]
-                                          [:creator :text]
-                                          [:person :text]
-                                          [:vote :number]
-                                          [:description :text]]))
-       (catch Exception e (println e))))
-
 (defn -main
   [& args]
   (println "Hello, World!")
-  (create-db)
   (insert! db :votes testdata)
 
   (def output
     (query db "select * from votes"))
 
   (keys (first output))
-  (:body (first output)))
+  (:body (first output))
+  (println output))

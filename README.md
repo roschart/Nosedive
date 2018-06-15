@@ -1,10 +1,17 @@
 # nosedive
 
-FIXME: description
+This applictions is a sandbox for trainning.
+We will create a vote application as the serie https://en.wikipedia.org/wiki/Nosedive
+
+
+## Dependencies
+You need git and lein installed in your system
 
 ## Installation
 
-Download from http://example.com/FIXME.
+git clone https://github.com/roschart/Nosedive.git
+git migrations
+ 
 
 ## Usage
 
@@ -15,22 +22,3 @@ FIXME: explanation
 ## Options
 
 FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2018 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
