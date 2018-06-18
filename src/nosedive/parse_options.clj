@@ -1,6 +1,7 @@
 (ns nosedive.parse-options
   (:require [clojure.tools.cli :refer [parse-opts]]
-            [either.core :as e]))
+            [tri-either.core :as e]
+            [nosedive.migrations :refer [migrate]]))
 
 (def required-opts #{:creator :description :person :vote})
 
@@ -24,6 +25,11 @@
     :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]
    ["-h" "--help"]])
 
+(defn check-valid-arguments [options]
+  (case (first (:arguments options))
+      "migrate" {:status :execute :result migrate}
+      {:status :error :result (str "Argument not valid")}))
+
 (defn check-errors [options]
   (if (:errors options)
     {:status :error :result (:errors options)}
@@ -42,7 +48,8 @@
 
 (defn check-args [args]
   (-> (parse-opts args cli-options)
-      check-errors
+      check-valid-arguments
+      (e/chain check-errors)
       (e/chain check-missing)
       (e/chain check-help)
       (e/map :options)))
