@@ -43,12 +43,12 @@
     {:status :success :result options}))
 
 (defn check-missing [options]
-  (if (missing-required? options)
+  (if (missing-required? (:options options))
     {:status :error :result (:summary options)}
     {:status :success :result options}))
 
 (defn check-help [options]
-  (if (:sumary options)
+  (if (:help options)
     {:status :error :result (:summary options)}
     {:status :success :result options}))
 
@@ -57,15 +57,15 @@
     :error
     data
     :success
-    (next data)
+    (next (:result data))
     {:status :error :result (str "data not have :status in chain" next)}))
 
 (defn debug 
   ([data] (debug data ""))
-  ([data msg] 
+  ([data msg]
+   (println (str "DEBUGING:" msg)) 
    (println data)
-   (println msg)
-   (data)))
+   data))
 
 (defn either [data fail success]
   (case (:status data)
@@ -73,6 +73,13 @@
     (fail (:result data))
     :success
     (success (:result data))))
+    
+(defn map [data fun]
+  (case (:status data)
+      :error
+      data
+      :success
+      (update data :result fun)))
 
 (defn process [data]
   (println (str "Los datos a procesar son:" data)))
@@ -80,20 +87,11 @@
 (defn -main
   [& args]
   (let [{:keys [options arguments summary errors] :as po}  (parse-opts args cli-options)]
-
-    ; (println po)
-    ; (cond
-    ;   errors (println errors)
-    ;   (or (:help options
-    ;             (missing-required? options)))
-    ;   (println (:summary options))
-    ;   :else (println (str "Hacer algo con " options)))
-
     (-> po
-        (debug)
         check-errors
         (chain check-missing)
         (chain check-help)
+        (map :options)
         (either println process))))
     ; (insert! db :votes testdata)
 
