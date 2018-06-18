@@ -38,7 +38,7 @@
     :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]])
 
 (defn check-errors [options]
-  (if (:error options)
+  (if (:errors options)
     {:status :error :result (:errors options)}
     {:status :success :result options}))
 
