@@ -16,6 +16,14 @@
    :subprotocol "sqlite"
    :subname     "db/database.db"})
 
+(def required-opts #{:creator :description :person :vote})
+
+(defn missing-required?
+  "Returns true if opts is missing any of the required-opts"
+  [opts]
+  (not-every? opts required-opts))
+
+
 (def cli-options
   ;; An option with a required argument
   [["-d" "--date DATE" "Date ddMMyyyy"
@@ -23,16 +31,22 @@
     :parse-fn #(.parse  (java.text.SimpleDateFormat. "ddMMyyyy") %)]
    ;; A non-idempotent option
    ["-c" "--creator  WHO" "Who vote"]
-   ["-D" "--descrition  DESCRIPTION" "The descirption"]
+   ["-D" "--description  DESCRIPTION" "The descirption"]
    ["-p" "--person PERSON" "The person that is voted"]
    ["-v" "--vote vote" "The vote"
     :parse-fn #(Integer/parseInt %)
-    :validate [#(< 0 % 6) "Must be a number between 0 and 65536"]]])
+    :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]])
 
 (defn -main
   [& args]
-  (let [options (parse-opts args cli-options)]
-    (println options)))
+  (let [{:keys [options arguments summary errors] :as po}  (parse-opts args cli-options)]
+    (println po)
+    (cond
+      errors (println errors)
+      (or (:help options
+                (missing-required? options)))
+      (println (:summary options))
+      :else (println (str "Hacer algo con " options)))))
     ; (insert! db :votes testdata)
 
     ; (def output
