@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/java.jdbc "0.7.6"]
+                 [org.clojure/tools.cli "0.3.7"]
                  [org.xerial/sqlite-jdbc "3.23.1"]
                  [migratus "1.0.6"]]
   :main ^:skip-aot nosedive.core
