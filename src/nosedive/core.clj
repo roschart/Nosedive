@@ -1,6 +1,7 @@
 (ns nosedive.core
   (:require [clojure.java.jdbc :refer :all]
-            [clojure.tools.cli :refer [parse-opts]])
+            [clojure.tools.cli :refer [parse-opts]]
+            [either.core :as e])
   (:gen-class))
 
 (def testdata
@@ -53,35 +54,6 @@
     {:status :error :result (:summary options)}
     {:status :success :result options}))
 
-(defn chain [data next]
-  (case (:status data)
-    :error
-    data
-    :success
-    (next (:result data))
-    {:status :error :result (str "data not have :status in chain" next)}))
-
-(defn debug 
-  ([data] (debug data ""))
-  ([data msg]
-   (println (str "DEBUGING:" msg)) 
-   (println data)
-   data))
-
-(defn either [data fail success]
-  (case (:status data)
-    :error
-    (fail (:result data))
-    :success
-    (success (:result data))))
-    
-(defn map [data fun]
-  (case (:status data)
-      :error
-      data
-      :success
-      (update data :result fun)))
-
 (defn process [data]
   (println (str "Los datos a procesar son:" data)))
 
@@ -90,10 +62,10 @@
   (let [{:keys [options arguments summary errors] :as po}  (parse-opts args cli-options)]
     (-> po
         check-errors
-        (chain check-missing)
-        (chain check-help)
-        (map :options)
-        (either println process))))
+        (e/chain check-missing)
+        (e/chain check-help)
+        (e/map :options)
+        (e/either println process))))
     ; (insert! db :votes testdata)
 
     ; (def output
