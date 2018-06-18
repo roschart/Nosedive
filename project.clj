@@ -10,9 +10,12 @@
                  [migratus "1.0.6"]]
   :main ^:skip-aot nosedive.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:uberjar {:aot :all}
+             :dev {:resource-paths  ["resources/dev"]}
+             :prod {:resource-paths ["resources/prod"]}}
   :plugins [[lein-ancient "0.6.15"]
-            [migratus-lein "0.5.7"]]
+            [migratus-lein "0.5.7"]
+            [lein-pprint "1.1.2"]]
   :migratus {:store             :database
              :migration-dir     "migrations"
              :db  {:classname   "org.sqlite.JDBC"

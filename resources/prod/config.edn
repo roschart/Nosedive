@@ -1,0 +1,3 @@
+{:db {:classname   "org.sqlite.JDBC"
+      :subprotocol "sqlite"
+      :subname     "db/prod_database.db"}} 
