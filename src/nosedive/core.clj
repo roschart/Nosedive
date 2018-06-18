@@ -18,9 +18,10 @@
    :subprotocol "sqlite"
    :subname     "db/database.db"})
 
-
 (defn process [data]
-  (println (str "Los datos a procesar son:" data)))
+  (insert! db :votes data)
+  (let [output (query db "select * from votes")]
+    (println (last output))))
 
 (defn -main
   [& args]
@@ -31,11 +32,4 @@
         (e/chain check-help)
         (e/map :options)
         (e/either println process))))
-    ; (insert! db :votes testdata)
-
-    ; (def output
-    ;   (query db "select * from votes"))
-
-    ; (keys (first output))
-    ; (:body (first output))
-    ; (println output)))
+    
