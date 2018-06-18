@@ -90,6 +90,7 @@
     ;   :else (println (str "Hacer algo con " options)))
 
     (-> po
+        (debug)
         check-errors
         (chain check-missing)
         (chain check-help)
