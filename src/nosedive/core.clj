@@ -37,16 +37,63 @@
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]])
 
+(defn check-errors [options]
+  (if (:error options)
+    {:status :error :result (:errors options)}
+    {:status :success :result options}))
+
+(defn check-missing [options]
+  (if (missing-required? options)
+    {:status :error :result (:summary options)}
+    {:status :success :result options}))
+
+(defn check-help [options]
+  (if (:sumary options)
+    {:status :error :result (:summary options)}
+    {:status :success :result options}))
+
+(defn chain [data next]
+  (case (:status data)
+    :error
+    data
+    :success
+    (next data)
+    {:status :error :result (str "data not have :status in chain" next)}))
+
+(defn debug 
+  ([data] (debug data ""))
+  ([data msg] 
+   (println data)
+   (println msg)
+   (data)))
+
+(defn either [data fail success]
+  (case (:status data)
+    :error
+    (fail (:result data))
+    :success
+    (success (:result data))))
+
+(defn process [data]
+  (println (str "Los datos a procesar son:" data)))
+
 (defn -main
   [& args]
   (let [{:keys [options arguments summary errors] :as po}  (parse-opts args cli-options)]
-    (println po)
-    (cond
-      errors (println errors)
-      (or (:help options
-                (missing-required? options)))
-      (println (:summary options))
-      :else (println (str "Hacer algo con " options)))))
+
+    ; (println po)
+    ; (cond
+    ;   errors (println errors)
+    ;   (or (:help options
+    ;             (missing-required? options)))
+    ;   (println (:summary options))
+    ;   :else (println (str "Hacer algo con " options)))
+
+    (-> po
+        check-errors
+        (chain check-missing)
+        (chain check-help)
+        (either println process))))
     ; (insert! db :votes testdata)
 
     ; (def output
