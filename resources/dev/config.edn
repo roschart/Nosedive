@@ -1,3 +1,5 @@
-{:db {:classname   "org.sqlite.JDBC"
+{:store             :database
+ :migration-dir     "migrations"
+ :db {:classname   "org.sqlite.JDBC"
       :subprotocol "sqlite"
       :subname     "db/database.db"}} 
