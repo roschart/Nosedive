@@ -1,7 +1,7 @@
 (ns nosedive.core
   (:require [clojure.java.jdbc :refer :all]
             ; [clojure.tools.cli :refer [parse-opts]]
-            [nosedive.parse-options :refer :all]
+            [nosedive.parse-options :as p]
             [either.core :as e])
   (:gen-class))
 
@@ -23,13 +23,8 @@
   (let [output (query db "select * from votes")]
     (println (last output))))
 
-(defn -main
-  [& args]
-  (let [{:keys [options arguments summary errors] :as po}  (parse-opts args)]
-    (-> po
-        check-errors
-        (e/chain check-missing)
-        (e/chain check-help)
-        (e/map :options)
-        (e/either println process))))
+(defn -main  [& args]
+  (-> args
+      p/check-args
+      (e/either println process)))
     

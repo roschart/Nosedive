@@ -1,5 +1,6 @@
 (ns nosedive.parse-options
-  (:require [clojure.tools.cli :refer [parse-opts] :rename {parse-opts po}]))
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [either.core :as e]))
 
 (def required-opts #{:creator :description :person :vote})
 
@@ -37,6 +38,12 @@
   (if (get-in options [:options :help])
     {:status :error :result (:summary options)}
     {:status :success :result options}))
-(defn parse-opts [args]
-  (po args cli-options))
 
+
+(defn check-args [args]
+  (-> (parse-opts args cli-options)
+      check-errors
+      (e/chain check-missing)
+      (e/chain check-help)
+      (e/map :options)))
+  
