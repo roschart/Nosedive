@@ -35,7 +35,8 @@
    ["-p" "--person PERSON" "The person that is voted"]
    ["-v" "--vote vote" "The vote"
     :parse-fn #(Integer/parseInt %)
-    :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]])
+    :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]
+   ["-h" "--help"]])
 
 (defn check-errors [options]
   (if (:errors options)
@@ -48,7 +49,7 @@
     {:status :success :result options}))
 
 (defn check-help [options]
-  (if (:help options)
+  (if (get-in options [:options :help])
     {:status :error :result (:summary options)}
     {:status :success :result options}))
 
