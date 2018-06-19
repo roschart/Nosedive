@@ -16,3 +16,10 @@
          cva (check-valid-actions opts)
          {:keys [status result]} cva]
     (is (= {:status :left :result {:type :action :action migrate}} cva)))))
+
+(deftest check-errors-test
+  (testing "No must be errors in the parser"
+   (let [opts (parse-opts ["-v 6"] cli-options)
+         ce (check-errors opts)
+         {:keys [status result]} ce]
+    (is (= {:status :right :result result} ce)))))
