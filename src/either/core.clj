@@ -7,6 +7,9 @@
     :right   (next (:result data))
     {:status :left :result (str "data not have :status in chain" next)}))
 
+(def |> chain) ;alias
+(def >>= chain) ;alias
+
 (defn debug 
   ([data] (debug data ""))
   ([data msg]
