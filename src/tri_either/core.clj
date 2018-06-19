@@ -4,7 +4,7 @@
 (defn chain [data next]
   (case (:status data)
     :error     data
-    :execute   data 
+    :left   data 
     :right   (next (:result data))
     {:status :error :result (str "data not have :status in chain" next)}))
 
