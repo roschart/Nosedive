@@ -28,9 +28,9 @@
 (defn check-valid-actions [options]
   (let [args (:arguments options)
         n (count args)]
-    (if (> n 1)
+    (if (> n 0)
       (case (first (:arguments options))
-          "migrate" {:status :execute :result migrate}
+          "migrate" {:status :left :result {:type :action :action migrate}}
           {:status :error :result (str "Argument not valid")})
       {:status :right :result options})))
 

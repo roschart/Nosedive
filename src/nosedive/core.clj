@@ -16,7 +16,7 @@
   (case (:status data)
       :error   (println  (:result data))
       :right (save!    (:result data))
-      :execute ((:result data))))
+      :left ((:result data))))
 
 (defn -main  [& args]
   (-> args
