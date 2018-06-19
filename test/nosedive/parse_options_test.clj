@@ -19,7 +19,7 @@
 
 (deftest check-errors-test
   (testing "No must be errors in the parser"
-   (let [opts (parse-opts ["-v 6"] cli-options)
+   (let [opts (parse-opts ["-v" "6"] cli-options)
          ce (check-errors opts)
          {:keys [status result]} ce]
     (is (= {:status :left :result result} ce))))
@@ -35,3 +35,15 @@
           ce (check-errors opts)
           {:keys [status result]} ce]
       (is (= {:status :right :result result} ce)))))
+
+(deftest check-missing-test
+  (testing "Error when miss some mandatori parameter"
+   (let [opts (parse-opts [] cli-options)
+         ce (check-missing opts)
+         {:keys [status result]} ce]
+    (is (= {:status :left :result result} ce))))
+  (testing "No errors when all paremeters are sended"
+   (let [opts (parse-opts ["-pJose" "-cAntonio" "-v3" "-D" "por que mola"] cli-options)
+         ce (check-missing opts)
+         {:keys [status result]} ce]
+    (is (= {:status :right :result result} ce)))))
