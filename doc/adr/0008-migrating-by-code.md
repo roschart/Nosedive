@@ -1,4 +1,4 @@
-# 7. Migrating by code
+# 8. Migrating by code
 Date: 2018-06-19
 
 ## Status
