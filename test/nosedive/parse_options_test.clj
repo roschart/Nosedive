@@ -8,4 +8,4 @@
    (let [opts (parse-opts [] cli-options)
          cva (check-valid-actions opts)
          {:keys [status result]} cva]
-    (is (= {:status :success :result result} cva)))))
+    (is (= {:status :right :result result} cva)))))
