@@ -1,7 +1,7 @@
 (ns nosedive.core
   (:require [clojure.java.jdbc :refer :all]
             [nosedive.parse-options :as p]
-            [tri-either.core :as e]
+            [either.core :as e]
             [clojure.edn :as edn]
             [clojure.java.io :as io])
   (:gen-class))

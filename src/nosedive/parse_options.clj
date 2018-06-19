@@ -1,6 +1,6 @@
 (ns nosedive.parse-options
   (:require [clojure.tools.cli :refer [parse-opts]]
-            [tri-either.core :as e]
+            [either.core :as e]
             [nosedive.migrations :refer [migrate]]))
 
 (def required-opts #{:creator :description :person :vote})
