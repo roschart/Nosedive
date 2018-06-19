@@ -10,7 +10,7 @@ You need git and lein installed in your system
 ## Installation
 
 * git clone https://github.com/roschart/Nosedive.git
-* lein migratus migrate
+* lein run migrate
  
 ## Run in development mode
 * Lein run [opts]
