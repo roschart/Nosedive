@@ -13,10 +13,11 @@
       (println (last output)))))
 
 (defn process! [data]
-  (case (:status data)
-      :error   (println  (:result data))
-      :right (save!    (:result data))
-      :left ((:result data))))
+  (let [{status :status result :result} data]
+    (case status
+        :left   (cond (= :action (-> result :type)) ((-> result :action))
+                      :else (println result))
+        :right (save!  result))))
 
 (defn -main  [& args]
   (-> args

@@ -31,22 +31,22 @@
     (if (= n 1)
       (case (first (:arguments options))
           "migrate" {:status :left :result {:type :action :action migrate}}
-          {:status :error :result (str "Argument not valid")})
+          {:status :left :result (str "Argument not valid")})
       {:status :right :result options})))
 
 (defn check-errors [options]
   (if (:errors options)
-    {:status :error :result (:errors options)}
+    {:status :left :result (:errors options)}
     {:status :right :result options}))
 
 (defn check-missing [options]
   (if (missing-required? (:options options))
-    {:status :error :result (:summary options)}
+    {:status :left :result (:summary options)}
     {:status :right :result options}))
 
 (defn check-help [options]
   (if (get-in options [:options :help])
-    {:status :error :result (:summary options)}
+    {:status :left :result (:summary options)}
     {:status :right :result options}))
 
 
