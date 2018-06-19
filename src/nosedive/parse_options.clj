@@ -25,7 +25,7 @@
     :validate [#(< 0 % 6) "Must be a number between 1 and 5"]]
    ["-h" "--help"]])
 
-(defn check-valid-arguments [options]
+(defn check-valid-actions [options]
   (let [args (:arguments options)
         n (count args)]
     (if (> n 1)
@@ -52,7 +52,7 @@
 
 (defn check-args [args]
   (-> (parse-opts args cli-options)
-      check-valid-arguments
+      check-valid-actions
       (e/chain check-errors)
       (e/chain check-missing)
       (e/chain check-help)
