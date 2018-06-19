@@ -1,4 +1,4 @@
-(ns tri-either.core
+(ns either.core
     (:refer-clojure :exclude [map]))
 
 (defn chain [data next]
