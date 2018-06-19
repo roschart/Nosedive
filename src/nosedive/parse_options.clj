@@ -1,6 +1,6 @@
 (ns nosedive.parse-options
   (:require [clojure.tools.cli :refer [parse-opts]]
-            [either.core :as e]
+            [either.core :as e :refer [|>]]
             [nosedive.migrations :refer [migrate]]))
 
 (def required-opts #{:creator :description :person :vote})
@@ -53,8 +53,8 @@
 (defn check-args [args]
   (-> (parse-opts args cli-options)
       check-valid-actions
-      (e/chain check-errors)
-      (e/chain check-missing)
-      (e/chain check-help)
+      (|> check-errors)
+      (|> check-missing)
+      (|> check-help)
       (e/map :options)))
   
