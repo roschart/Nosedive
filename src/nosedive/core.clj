@@ -15,7 +15,7 @@
 (defn process! [data]
   (case (:status data)
       :error   (println  (:result data))
-      :success (save!    (:result data))
+      :right (save!    (:result data))
       :execute ((:result data))))
 
 (defn -main  [& args]

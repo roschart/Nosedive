@@ -32,22 +32,22 @@
       (case (first (:arguments options))
           "migrate" {:status :execute :result migrate}
           {:status :error :result (str "Argument not valid")})
-      {:status :success :result options})))
+      {:status :right :result options})))
 
 (defn check-errors [options]
   (if (:errors options)
     {:status :error :result (:errors options)}
-    {:status :success :result options}))
+    {:status :right :result options}))
 
 (defn check-missing [options]
   (if (missing-required? (:options options))
     {:status :error :result (:summary options)}
-    {:status :success :result options}))
+    {:status :right :result options}))
 
 (defn check-help [options]
   (if (get-in options [:options :help])
     {:status :error :result (:summary options)}
-    {:status :success :result options}))
+    {:status :right :result options}))
 
 
 (defn check-args [args]

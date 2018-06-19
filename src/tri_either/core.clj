@@ -5,7 +5,7 @@
   (case (:status data)
     :error     data
     :execute   data 
-    :success   (next (:result data))
+    :right   (next (:result data))
     {:status :error :result (str "data not have :status in chain" next)}))
 
 (defn debug 
@@ -18,5 +18,5 @@
   
 (defn map [data fun]
   (case (:status data)
-      :success     (update data :result fun)
+      :right     (update data :result fun)
       data))
