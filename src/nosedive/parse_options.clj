@@ -26,9 +26,13 @@
    ["-h" "--help"]])
 
 (defn check-valid-arguments [options]
-  (case (first (:arguments options))
-      "migrate" {:status :execute :result migrate}
-      {:status :error :result (str "Argument not valid")}))
+  (let [args (:arguments options)
+        n (count args)]
+    (if (> n 1)
+      (case (first (:arguments options))
+          "migrate" {:status :execute :result migrate}
+          {:status :error :result (str "Argument not valid")})
+      {:status :success :result options})))
 
 (defn check-errors [options]
   (if (:errors options)
