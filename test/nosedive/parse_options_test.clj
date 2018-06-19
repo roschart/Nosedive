@@ -24,7 +24,13 @@
          {:keys [status result]} ce]
     (is (= {:status :left :result result} ce))))
   
-  (testing "Without erros result is Right"
+  (testing "No erros when argumentes are correct"
+   (let [opts (parse-opts ["-v" "5"] cli-options)
+         ce (check-errors opts)
+         {:keys [status result]} ce]
+    (is (= {:status :right :result result} ce))))
+  
+  (testing "No errors when empty arguments"
     (let [opts (parse-opts [] cli-options)
           ce (check-errors opts)
           {:keys [status result]} ce]
