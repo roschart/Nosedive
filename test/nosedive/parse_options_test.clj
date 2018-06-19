@@ -22,5 +22,10 @@
    (let [opts (parse-opts ["-v 6"] cli-options)
          ce (check-errors opts)
          {:keys [status result]} ce]
-    (is (= {:status :left :result result} ce)))))
+    (is (= {:status :left :result result} ce))))
   
+  (testing "Without erros result is Right"
+    (let [opts (parse-opts [] cli-options)
+          ce (check-errors opts)
+          {:keys [status result]} ce]
+      (is (= {:status :right :result result} ce)))))
