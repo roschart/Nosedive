@@ -17,6 +17,15 @@ You need git and lein installed in your system
 
 Try lein run -h for more help
 
+## Developing
+To start the diferent services in local use:
+    docker-compose run app
+
+This will open a container with a lein repl runing, and mount a volume with the actual folder.
+
+To work, in the repl run (refresh), this will load all code in the repl, when you change something in your code try (refresh) again to bring changes to the repl
+
+
 ## Usage
 
     lein uberjar
